@@ -1,0 +1,41 @@
+Must-Have Features
+
+Auth
+
+Register / login
+
+JWT
+
+Roles: USER, CREATOR
+
+Creator Profiles
+
+Creator sets price
+
+Public bio
+
+Subscriptions
+
+User subscribes to one creator
+
+Monthly recurring payment
+
+Cancel subscription
+
+Locked Content
+
+Creator posts content
+
+Subscribers can view
+
+Non-subscribers can’t
+
+That alone already teaches:
+
+Spring Security
+
+JPA relationships
+
+Payment webhooks
+
+Real authorization logic
