@@ -14,7 +14,7 @@ public class PostMapper {
     public PostResponse toDto(Post post) {
         return PostResponse.builder()
                 .id(post.getId())
-                .creator(post.getCreator().getId())
+                .creator(post.getCreator())
                 .title(post.getTitle())
                 .description(post.getDescription())
 

@@ -43,7 +43,7 @@ public class SecurityConfig {
 
 
                 
-                .requestMatchers("/api/auth/register", "/api/auth/login").permitAll()
+                .requestMatchers("/api/auth/register", "/api/auth/login", "/stripe/webhook").permitAll()
                 .requestMatchers("/user/**").hasRole("USER")
                 .anyRequest().authenticated()
             )

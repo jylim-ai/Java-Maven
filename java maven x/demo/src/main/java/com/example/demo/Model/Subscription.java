@@ -2,11 +2,13 @@ package com.example.demo.Model;
 
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "subscriptions", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"subscriber_id", "creator_id"})
+        @UniqueConstraint(columnNames = {"subscriber_id", "plan_id"})
 })
 @Getter
 @Setter
@@ -23,10 +25,8 @@ public class Subscription {
     private User subscriber;
 
     @ManyToOne
-    @JoinColumn(name = "creator_id", nullable = false)
-    private User creator;
-
-    private Double price = 0.0;
+    @JoinColumn(name = "plan_id", nullable = false)
+    private Plan plan;
 
     private LocalDate startDate;
     private LocalDate endDate;

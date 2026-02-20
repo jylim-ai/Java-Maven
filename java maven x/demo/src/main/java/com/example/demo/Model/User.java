@@ -1,6 +1,7 @@
 package com.example.demo.Model;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import jakarta.persistence.*;
@@ -44,5 +45,11 @@ public class User {
         CREATOR,
         ADMIN
     }
+
+    @OneToMany(mappedBy = "creator")
+    private List<Plan> createdPlans;
+
+    @OneToMany(mappedBy = "subscriber")
+    private List<Subscription> subscriptions;
 
 }

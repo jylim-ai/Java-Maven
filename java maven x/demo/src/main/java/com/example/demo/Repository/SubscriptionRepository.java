@@ -9,5 +9,4 @@ import com.example.demo.Model.Subscription;
 public interface SubscriptionRepository extends JpaRepository<Subscription, Long> {
     
     Optional<Subscription> findBySubscriberId(Long id);
-    Optional<Subscription> findByCreatorId(Long id);
 }

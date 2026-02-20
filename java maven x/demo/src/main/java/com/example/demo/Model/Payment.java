@@ -2,6 +2,8 @@ package com.example.demo.Model;
 
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -24,7 +26,7 @@ public class Payment {
     @JoinColumn(name = "subscription_id")
     private Subscription subscription;
 
-    private Double amount;
+    private BigDecimal amount;
     private String currency = "USD";
     private String paymentMethod;
 

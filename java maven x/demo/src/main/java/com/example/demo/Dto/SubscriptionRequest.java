@@ -1,5 +1,6 @@
 package com.example.demo.Dto;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -12,8 +13,7 @@ public class SubscriptionRequest {
     private Long id;
 
     private UUID subscriberId;
-    private UUID creatorId;
-    private Double price;
+    private Long planId;
     private LocalDate startDate;
     private LocalDate endDate;
     private Subscription.Status status; // optional, default ACTIVE

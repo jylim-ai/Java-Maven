@@ -13,7 +13,7 @@ import lombok.Data;
 @Builder
 public class PostResponse {
     private Long id;        // required for create
-    private Long creator;
+    private User creator;
     private String title;
     private String description;
     private Boolean isPaid;        // optional, default true

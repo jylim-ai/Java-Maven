@@ -1,8 +1,10 @@
 package com.example.demo.Dto;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
+import com.example.demo.Model.Plan;
 import com.example.demo.Model.Subscription;
 
 import lombok.Builder;
@@ -15,9 +17,7 @@ public class SubscriptionResponse {
 
     private UUID subscriberId;
     private String subscriberName;
-    private UUID creatorId;
-    private String creatorName;
-    private Double price;
+    private Plan plan;
     private LocalDate startDate;
     private LocalDate endDate;
     private Subscription.Status status; // optional
