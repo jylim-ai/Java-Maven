@@ -1,10 +1,10 @@
-Subscription Platform Backend
+# Subscription Platform Backend
 
 A scalable subscription management backend built with Spring Boot.
 This system supports user registration, subscription plans, payment integration.
 
 
-Tech Stack
+## Tech Stack
 
 Java 21+
 
@@ -18,6 +18,37 @@ Spring Security (JWT-based authentication)
 
 Hibernate
 
-MySQL / PostgreSQL
+PostgreSQL
 
 Maven
+
+## Architecture Overview
+```bash
+Client (Web)
+        ↓
+Controller (Spring Boot)
+        ↓
+Service Layer (Business Logic)
+        ↓
+Repository Layer (JPA / Hibernate)
+        ↓
+Database (MySQL / PostgreSQL)
+```
+
+## Features
+
+👤 User Management
+
+User registration
+
+Login / JWT authentication
+
+💳 Subscription Management
+
+Create subscription plans
+
+Subscribe / cancel plan
+
+💰 Billing
+
+Stipe API for payment gateway
