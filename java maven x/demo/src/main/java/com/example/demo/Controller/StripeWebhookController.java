@@ -2,6 +2,7 @@ package com.example.demo.Controller;
 
 import com.stripe.model.Event;
 import com.stripe.model.PaymentIntent;
+import com.stripe.model.checkout.Session;
 import com.stripe.net.Webhook;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -32,38 +33,29 @@ public class StripeWebhookController {
 
         try {
             event = Webhook.constructEvent(payload, sigHeader, ENDPOINT_SECRET);
+
+            switch (event.getType()) {
+                case "checkout.session.completed":
+                    Session session = (Session) event.getDataObjectDeserializer()
+                            .getObject()
+                            .orElse(null);
+                    if (session != null) {
+                        // ✅ Payment succeeded → update database
+                        System.out.println("💰 Payment succeeded: " + session.getId());
+                        // TODO: mark order or plan as paid
+                    }
+                    break;
+
+                default:
+                    System.out.println("Unhandled event type: " + event.getType());
+            }
+
+            return ResponseEntity.ok("");
+            
         } catch (Exception e) {
             System.out.println("⚠️ Webhook signature verification failed: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("");
         }
-
-        switch (event.getType()) {
-            case "payment_intent.succeeded":
-                PaymentIntent paymentIntent = (PaymentIntent) event.getDataObjectDeserializer()
-                        .getObject()
-                        .orElse(null);
-                if (paymentIntent != null) {
-                    // ✅ Payment succeeded → update database
-                    System.out.println("💰 Payment succeeded: " + paymentIntent.getId() + ", amount: " + paymentIntent.getAmount());
-                    // TODO: mark order or plan as paid
-                }
-                break;
-
-            case "payment_intent.payment_failed":
-                PaymentIntent failedIntent = (PaymentIntent) event.getDataObjectDeserializer()
-                        .getObject()
-                        .orElse(null);
-                if (failedIntent != null) {
-                    System.out.println("❌ Payment failed: " + failedIntent.getId());
-                    // TODO: mark order as failed
-                }
-                break;
-
-            default:
-                System.out.println("Unhandled event type: " + event.getType());
-        }
-
-        return ResponseEntity.ok("");
     }
 
     // Utility to read request body

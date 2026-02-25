@@ -59,7 +59,7 @@ public class PaymentController {
 
         SessionCreateParams params =
             SessionCreateParams.builder()
-                .setMode(SessionCreateParams.Mode.SUBSCRIPTION)
+                .setMode(SessionCreateParams.Mode.PAYMENT)
                 .setSuccessUrl("https://localhost:8080/api/payments/success?session_id={CHECKOUT_SESSION_ID}")
                 .setCancelUrl("https://localhost:8080/api/payments/cancel")
                 .addLineItem(
@@ -68,7 +68,7 @@ public class PaymentController {
                         .setPriceData(
                             SessionCreateParams.LineItem.PriceData.builder()
                                 .setCurrency("usd")
-                                .setUnitAmount(plan.longValue()) // $50.00
+                                .setUnitAmount(plan.multiply(BigDecimal.valueOf(100)).longValue()) // $50.00
                                 .setProductData(
                                     SessionCreateParams.LineItem.PriceData.ProductData.builder()
                                         .setName("Premium Access")
@@ -81,6 +81,8 @@ public class PaymentController {
                 .build();
 
             Session session = Session.create(params);
+            
+            System.out.println(session);
 
             return ResponseEntity.ok(Map.of("url", session.getUrl()));
     }

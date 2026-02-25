@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.nimbusds.jwt.proc.ExpiredJWTException;
+import com.stripe.exception.StripeException;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
@@ -46,6 +47,17 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
                 .body("Token invalid. Please login again.");
+    }
+
+    @ExceptionHandler(StripeException.class)
+    public ResponseEntity<String> handleStripeException(StripeException ex) {
+        // Log the full exception
+        ex.printStackTrace();
+
+        // Return meaningful message to frontend
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body("Stripe error: " + ex.getMessage());
     }
 
 }
