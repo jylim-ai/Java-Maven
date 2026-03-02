@@ -56,3 +56,28 @@ Create, update post
 ### Billing
 
 Stipe API for payment gateway
+
+## Setup and Installations
+
+## Clone the Repository
+```bash
+git clone https://github.com/your-username/subscription-api.git
+cd "java maven x"
+```
+
+## Configure Database and API Keys
+```bash
+POSTGRES_USER=
+POSTGRES_PASSWORD=
+POSTGRES_URL=
+STRIPE_SECRET_KEY=
+STRIPE_WEBHOOK_SECRET=
+SECRET_KEY=
+```
+
+## Docker Build Porject
+```bash
+./mvnw clean package -DskipTests
+docker build -t demo-app:latest .
+docker-compose up --build -d
+```
