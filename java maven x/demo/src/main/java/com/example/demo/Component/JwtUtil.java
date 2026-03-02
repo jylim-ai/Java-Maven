@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.crypto.SecretKey;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -16,8 +17,18 @@ import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtUtil {
-    private final String SECRET_KEY = "b2c8f1e4a9d34f7e91c6a8d2f3e4c5b6b2c8f1e4a9d34f7e";
-    private SecretKey key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+
+
+
+    private final String secret;
+    private final SecretKey key;
+
+    public JwtUtil(@Value("${jwt.secret}") String secret) {
+        this.secret = secret;
+        this.key = Keys.hmacShaKeyFor(
+                secret.getBytes(StandardCharsets.UTF_8)
+        );
+    }
 
     public String generateToken(User user) {
         return Jwts.builder()

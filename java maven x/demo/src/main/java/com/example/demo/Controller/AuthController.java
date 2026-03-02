@@ -59,7 +59,7 @@ public class AuthController {
 
         try {
             userRepository.save(user);
-            return ResponseEntity.status(201).body("Registered!");
+            return ResponseEntity.status(201).body(user);
         } catch (Exception e) {
             return ResponseEntity.status(400).body("Error creating user: " + e.getMessage());
         }
@@ -84,6 +84,8 @@ public class AuthController {
         
         String token = jwtUtil.generateToken(dbuser2);
         UUID uid = dbuser2.getUuid();
+
+        System.out.println(dbuser2);
 
         // Return token in a JSON object
         Map<String, String> response = new HashMap<>();

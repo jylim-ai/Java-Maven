@@ -5,6 +5,8 @@ import com.stripe.model.PaymentIntent;
 import com.stripe.model.checkout.Session;
 import com.stripe.net.Webhook;
 import jakarta.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +19,9 @@ import java.nio.charset.StandardCharsets;
 @RequestMapping("/stripe")
 public class StripeWebhookController {
 
-    private static final String ENDPOINT_SECRET = System.getenv("STRIPE_WEBHOOK_SECRET"); // Set in env
-
+    
+    @Value("${STRIPE_WEBHOOK_SECRET}")
+    private String ENDPOINT_SECRET;
 
 
     @PostMapping("/webhook")

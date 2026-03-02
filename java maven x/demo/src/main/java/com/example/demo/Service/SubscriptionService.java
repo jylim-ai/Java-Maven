@@ -1,6 +1,12 @@
 package com.example.demo.Service;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -30,16 +36,26 @@ public class SubscriptionService {
     private final UserRepository userRepository;
     private final SubscriptionMapper subscriptionMapper;
 
-    public SubscriptionResponse getSubscriptionByUuid(UUID id) {
+    public List<SubscriptionResponse> getSubscriptionByUuid(UUID id) {
         
 
 
 
         User user = userRepository.findByUuid(id)
             .orElseThrow(() -> new RuntimeException("User not found"));
+
         
-        Subscription subscription = subscriptionRepository.findBySubscriberId(user.getId())
-            .orElseThrow(() -> new RuntimeException("Subscription not found"));
+
+        List<Plan> plans = planRepository.findAllByCreator(user);
+
+        if (plans.isEmpty()) {
+            throw new RuntimeException("No plans found");
+        }
+
+        
+        List<Subscription> subscription = plans.stream()
+                .flatMap(p -> subscriptionRepository.findAllByPlan(p).stream())
+                .collect(Collectors.toList());
 
         return subscriptionMapper.toDto(subscription);
     }
@@ -47,20 +63,19 @@ public class SubscriptionService {
     
 
 
-    public SubscriptionResponse getCreatorByUuid(UUID id) {
+    public List<SubscriptionResponse> getCreatorByUuid(UUID id) {
         
 
 
         User user = userRepository.findByUuid(id)
             .orElseThrow(() -> new RuntimeException("User not found"));
         
-        Subscription post = subscriptionRepository.findBySubscriberId(user.getId())
-            .orElseThrow(() -> new RuntimeException("Creator not found"));
+        List<Subscription> post = subscriptionRepository.findAllBySubscriberId(user.getId());
 
         return subscriptionMapper.toDto(post);
     }
 
-    public SubscriptionResponse createSubscription(SubscriptionRequest req, Authentication auth) {
+    public List<SubscriptionResponse> createSubscription(SubscriptionRequest req, Authentication auth) {
 
         User subscriber = userRepository.findByUuid(UUID.fromString(auth.getName()))
                 .orElseThrow(() -> new RuntimeException("Subscriber not found"));
@@ -68,22 +83,24 @@ public class SubscriptionService {
         Plan plan = planRepository.findById(req.getPlanId())
                 .orElseThrow(() -> new RuntimeException("Creator not found"));
 
-        Subscription subscription = new Subscription();
-        subscription.setSubscriber(subscriber);
-        subscription.setPlan(plan);
-        subscription.setStartDate(req.getStartDate());
-        subscription.setEndDate(req.getEndDate());
-        subscription.setStatus(
+        List<Subscription> subscriptions = new ArrayList<>();
+        Subscription sub = new Subscription();
+        sub.setSubscriber(subscriber);
+        sub.setPlan(plan);
+        sub.setStartDate(Instant.now());
+        sub.setEndDate(Instant.now().plus(30, ChronoUnit.DAYS));
+        sub.setStatus(
                 req.getStatus() != null ? req.getStatus() : Subscription.Status.ACTIVE
         );
+        subscriptions.add(sub);
 
-        subscriptionRepository.save(subscription);
-        return subscriptionMapper.toDto(subscription);
+        subscriptionRepository.saveAll(subscriptions);
+        return subscriptionMapper.toDto(subscriptions);
     }
 
-    public SubscriptionResponse updateSubscription(Long id, SubscriptionRequest req, Authentication auth) {
+    public List<SubscriptionResponse> updateSubscription(Long id, SubscriptionRequest req, Authentication auth) {
 
-        Subscription subscription = subscriptionRepository.findById(req.getId())
+        Subscription subscription = subscriptionRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Subscription not found"));
         
         User subscriber = userRepository.findByUuid(UUID.fromString(auth.getName()))
@@ -91,11 +108,11 @@ public class SubscriptionService {
 
         if (subscription.getSubscriber() != subscriber) throw new RuntimeException("Access denied");
 
-        if (req.getStartDate() != null) subscription.setStartDate(req.getStartDate());
-        if (req.getEndDate() != null) subscription.setEndDate(req.getEndDate());
+        subscription.setStartDate(Instant.now());
+        subscription.setEndDate(Instant.now().plus(30, ChronoUnit.DAYS));
         if (req.getStatus() != null) subscription.setStatus(req.getStatus());
 
-        return subscriptionMapper.toDto(subscription);
+        return subscriptionMapper.toDto(Collections.singletonList(subscription));
     }
 }
 

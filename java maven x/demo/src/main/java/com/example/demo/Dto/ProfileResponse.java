@@ -1,6 +1,7 @@
 package com.example.demo.Dto;
 
 import java.util.Map;
+import java.util.UUID;
 
 import lombok.Builder;
 import lombok.Data;
@@ -9,7 +10,7 @@ import lombok.Data;
 @Builder
 public class ProfileResponse {
     
-    private Long id;
+    private UUID id;
     private String bio;
     private String profileImageUrl;
     private String bannerImageUrl;

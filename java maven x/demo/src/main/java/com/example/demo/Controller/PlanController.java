@@ -17,16 +17,18 @@ import com.example.demo.Dto.PostRequest;
 import com.example.demo.Service.PlanService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
-@RequestMapping("/plans")
+@RequestMapping("/api/plans")
 @RequiredArgsConstructor
 public class PlanController {
 
     private final PlanService planService;
 
-    @PostMapping
     @PreAuthorize("#request.creatorId.toString() == authentication.name")
+    @PostMapping("/create")
     public ResponseEntity<PlanResponse> createPlan(@RequestBody PlanRequest request) {
 
         return ResponseEntity.ok(planService.createPlan(request));
@@ -41,9 +43,15 @@ public class PlanController {
         return ResponseEntity.ok(planService.updatePlan(id, request, auth));
     }
 
+    
     @GetMapping("/{id}")
     public ResponseEntity<PlanResponse> getPlan(@PathVariable Long id) {
         return ResponseEntity.ok(planService.getPlan(id));
     }
+
+
+    
+
+
 }
 

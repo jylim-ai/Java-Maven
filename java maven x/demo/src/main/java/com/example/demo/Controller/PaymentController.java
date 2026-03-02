@@ -36,9 +36,6 @@ public class PaymentController {
     private final StripeProperties stripeProperties;
 
     
-    
-
-
     @PostConstruct
     public void init() {
         Stripe.apiKey = stripeProperties.getSecretKey();

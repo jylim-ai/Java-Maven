@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Entity
@@ -33,7 +34,7 @@ public class Payment {
     @Enumerated(EnumType.STRING)
     private Status status = Status.PENDING;
 
-    private LocalDateTime paymentDate = LocalDateTime.now();
+    private Instant paymentDate;
 
     public enum Status {
         PENDING, SUCCESS, FAILED

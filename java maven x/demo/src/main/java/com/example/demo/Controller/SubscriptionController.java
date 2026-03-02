@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
-@RequestMapping("/ai/subscripton")
+@RequestMapping("/api/subscription")
 @RequiredArgsConstructor
 @RestController
 public class SubscriptionController {

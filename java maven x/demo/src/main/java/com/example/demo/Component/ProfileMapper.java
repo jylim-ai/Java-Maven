@@ -10,7 +10,7 @@ public class ProfileMapper {
 
     public ProfileResponse toDto(Profile profile) {
         return ProfileResponse.builder()
-                .id(profile.getId())
+                .id(profile.getUser().getUuid())
                 .bio(profile.getBio())
                 .profileImageUrl(profile.getProfileImageUrl())
                 .bannerImageUrl(profile.getBannerImageUrl())

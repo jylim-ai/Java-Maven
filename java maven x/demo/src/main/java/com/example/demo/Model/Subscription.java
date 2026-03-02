@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDate;
 
 @Entity
@@ -28,8 +29,8 @@ public class Subscription {
     @JoinColumn(name = "plan_id", nullable = false)
     private Plan plan;
 
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private Instant startDate;
+    private Instant endDate;
 
     @Enumerated(EnumType.STRING)
     private Status status = Status.ACTIVE;

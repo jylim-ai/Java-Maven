@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import com.example.demo.Model.Subscription.Status;
 import com.example.demo.Repository.SubscriptionRepository;
 
+import java.time.Instant;
 import java.time.LocalDate;
 
 @Component
@@ -20,7 +21,7 @@ public class SubscriptionScheduler {
     // Runs every day at midnight
     @Scheduled(cron = "0 0 0 * * ?")
     public void expireSubscriptions() {
-        LocalDate today = LocalDate.now();
+        Instant today = Instant.now();
         subscriptionRepository.findAll().stream()
             .filter(sub -> sub.getEndDate() != null && !sub.getEndDate().isAfter(today))
             .forEach(sub -> {

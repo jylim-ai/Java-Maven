@@ -4,6 +4,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+
+import org.hibernate.annotations.GenericGenerator;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,15 +20,19 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity
 @Table(name = "users")
+
+
 public class User {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = true, name = "uuid")
+    @Column(name = "uuid", nullable = false, updatable = false)
     private UUID uuid = UUID.randomUUID();
 
+
+    
     @Column(unique = true, nullable = false)
     private String email;
 
@@ -47,9 +54,9 @@ public class User {
     }
 
     @OneToMany(mappedBy = "creator")
-    private List<Plan> createdPlans;
+    private List<Plan> planList;
 
     @OneToMany(mappedBy = "subscriber")
-    private List<Subscription> subscriptions;
+    private List<Subscription> subscriptionList;
 
 }
