@@ -37,18 +37,22 @@ Database (MySQL / PostgreSQL)
 
 ## Features
 
-👤 User Management
+### User Management
 
 User registration
 
 Login / JWT authentication
 
-💳 Subscription Management
+### Subscription Management
 
 Create subscription plans
 
 Subscribe / cancel plan
 
-💰 Billing
+### Post Management
+
+Create, update post 
+
+### Billing
 
 Stipe API for payment gateway
