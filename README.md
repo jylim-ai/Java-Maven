@@ -30,9 +30,9 @@ Controller (Spring Boot)
         ↓
 Service Layer (Business Logic)
         ↓
-Repository Layer (JPA / Hibernate)
+Repository Layer (JPA)
         ↓
-Database (MySQL / PostgreSQL)
+Database ( PostgreSQL)
 ```
 
 ## Features
@@ -43,13 +43,13 @@ User registration
 
 Login / JWT authentication
 
-### Subscription Management
+### Subscription 
 
 Create subscription plans
 
 Subscribe / cancel plan
 
-### Post Management
+### Post 
 
 Create, update post 
 
@@ -65,7 +65,7 @@ git clone https://github.com/your-username/subscription-api.git
 cd "java maven x"
 ```
 
-## Configure Database and API Keys
+## Configure Database and API Keys (.env)
 ```bash
 POSTGRES_USER=
 POSTGRES_PASSWORD=
