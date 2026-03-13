@@ -63,6 +63,7 @@ Stipe API for payment gateway
 ```bash
 git clone https://github.com/your-username/subscription-api.git
 cd "java maven x"
+cd demo
 ```
 
 ## Configure Database and API Keys (.env)
